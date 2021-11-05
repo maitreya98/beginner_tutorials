@@ -1,0 +1,6 @@
+# request
+string input_msg
+
+---
+# response 
+string output_msg 

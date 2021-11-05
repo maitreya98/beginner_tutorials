@@ -1,21 +1,19 @@
-/**
- * @file talker.cpp
- * @author Maitreya Kulkarni
- * @brief Program to start a publisher node which connects to ROS Network
- * @brief to publish a custom string
- * @version 0.1
- * @date 2021-10-30
- * 
- * @copyright Copyright (c) 2021 Maitreya Kulkarni
- */
-#include <ros/ros.h>
-#include <std_msgs/String.h>
-
 #include <sstream>
+#include "std_msgs/String.h"
+#include "ros/ros.h"
+#include <iostream>
+// Include service
+#include "beginner_tutorials/ServiceFile.h"
 
-/**
- * This tutorial demonstrates simple sending of messages over the ROS system.
- */
+std::string change = "Changed String: ";
+
+bool setMessage(beginner_tutorials::ServiceFile::Request &req,
+                beginner_tutorials::ServiceFile::Response &res) {
+  // Stored the new requested string in the default string
+  change = req.input_msg;
+  res.output_msg  = req.input_msg;
+  return true;
+}
 int main(int argc, char **argv) {
   /**
    * The ros::init() function needs to see argc and argv so that it can perform
@@ -54,7 +52,44 @@ int main(int argc, char **argv) {
    * buffer up before throwing some away.
    */
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
-  ros::Rate loop_rate(10);
+  // The service is created and advertised over ROS
+  ros::ServiceServer server = n.advertiseService("MyMsg", setMessage);
+
+  // Setting the loop frequency to a default of 10Hz
+  int loop = 10;
+  // Check if an argument for parsing a different loop rate is there.
+  if (argc > 1) {
+    loop = atoi(argv[1]);
+  }
+  // Log the frequency that is set
+  ROS_DEBUG_STREAM("Loop frequency is set to :" << loop << "Hz");
+  // Check if the frequency obtained is usable for the system
+  if (loop > 0) {
+    ROS_DEBUG_STREAM("Loop frequency of the loop is :" << loop << "Hz");
+    // If the loop rate is too high: ERROR
+    if (loop >= 100) {
+      ROS_ERROR("Loop frequency is too high for this application");
+      loop = 10;
+      ROS_WARN_STREAM("Set to default frequency of " << loop << "Hz");
+    }
+  } else {
+      // If the loop rate is negative, frequency becomes very high: ERROR
+      if (loop < 0) {
+        ROS_ERROR("Loop frequency cannot be negative");
+      // If loop rate is zero, program won't run: FATAL
+      } else if (loop == 0) {
+        ROS_FATAL("Loop frequency cannot be zero");
+      }
+      // Set the loop rate to a safer frequency
+      loop = 10;
+      ROS_WARN_STREAM("Set to default frequency of " << loop << "Hz");
+  }
+/*
+ * Specifies a frequency. It will keep track of how long it has been since the last
+ * call to Rate::sleep(), and sleep for the correct amount of time.
+ */
+  ros::Rate loop_rate(loop);
+
   /**
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
@@ -67,10 +102,11 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << "hello, MaTBoT speaking " << count;
+    ss << change << count;
+    // Store string in data
     msg.data = ss.str();
-
-    ROS_INFO("%s", msg.data.c_str());
+    // Stream information about sting being published
+    ROS_INFO_STREAM(msg.data.c_str());
 
     /**
      * The publish() function is how you send messages. The parameter
@@ -79,13 +115,13 @@ int main(int argc, char **argv) {
      * in the constructor above.
      */
     chatter_pub.publish(msg);
+    // Confirmation that string has been published
+    ROS_DEBUG("Published the message");
 
     ros::spinOnce();
-
+    // Sleep for the time remaining to let us hit our loop_rate publish rate
     loop_rate.sleep();
     ++count;
   }
-
-
   return 0;
 }

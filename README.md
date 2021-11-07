@@ -9,14 +9,16 @@ Maitreya Kulkarni
 
 ## Dependencies
 The project depends on the following dependencies
-* ROS-Melodic - Robotic Operating System is a meta-operating system for robots. The software can be installed from [here](http://wiki.ros.org/melodic/Installation/Ubuntu) 
-* catkin - Catkin is build tool which is developed using CMake and GNU Make. You may install catkin [here](http://wiki.ros.org/catkin#Installing_catkin)
+* [![Ubuntu 18.04](https://img.shields.io/badge/Ubuntu18.04-Clickhere-brightgreen.svg?style=flat)](https://releases.ubuntu.com/18.04/)  
 
-## Building and Running
+
+* [![ROS Melodic](https://img.shields.io/badge/ROSMelodic-Clickhere-brightgreen.svg?style=flat)](http://wiki.ros.org/melodic/Installation/Ubuntu)
+
+## Building Package
 Terminal:1
 ```
-    mkdir ~/catkin_ws
-    cd ~/catkin_ws
+    mkdir ~p /catkin_ws/src
+    cd ~/catkin_ws/src
     mkdir ~/src
     cd ~/src
     git clone https://github.com/maitreya98/beginner_tutorials.git
@@ -25,24 +27,65 @@ Terminal:1
     source devel/setup.bash
     roscore
 ```
-Terminal: 2
+## Running with launch file
+1. Running launch file with frequency argument
 ```
-    source devel/setup.bash
-    rosrun beginner_tutorials talker
+cd /catkin_ws
+source devel/setup.bash
+roslaunch beginner_tutorials service.launch set_frequency:=<your_frequency_argument>
 ```
-Terminal: 3
-``` 
-  source devel/setup.bash
-  rosrun beginner_tutorials listener
+2. Running launch file without frequency argument 
 ```
-## Run cppcheck
+cd /catkin_ws
+source devel/setup.bash
+roslaunch beginner_tutorials service.launch 
 ```
-  cppcheck --enable=all --std=c++11 -I src/ --suppress=missingIncludeSystem $( find . -name *.cpp) > results/cppcheck_result.txt
+## Running with individual node
+Open your workspace in new terminal
+
 ```
-# Run cpplint
+roscore
 ```
-  cpplint $( find . -name *.cpp)> results/cpplint_result.txt
+1. For running publisher node: (New Terminal)
+
 ```
+source devel/setup.bash
+rosrun beginner_tutorials talker
+```
+
+2. For running subscriber node (New Terminal)
+```
+source devel/setup.bash
+rosrun beginner_tutorials listener
+```
+
+## Using Rosservice to change base string
+```
+source devel/setup.bash
+rosservice call /NewService "input_msg: '<your_string>'"
+```
+
+## Visualize logging messages
+1. In new terminal 
+```
+rosrun rqt_console rqt_console
+```
+2. In another terminal
+```
+rosrun rqt_logger_level rqt_logger_level
+```
+* Visualization Output
+![Visualization Output](results/Week_10.png)
+
+For cppcheck
+```bash
+sh run_cppcheck.sh
+```
+For cpplint
+```
+sh run_cpplint.sh 
+`````
+
 ## License
 MIT License
 ```

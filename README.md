@@ -1,4 +1,4 @@
-# First Publisher/Subscriber ROS Package
+# First  ROS Service Package
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview

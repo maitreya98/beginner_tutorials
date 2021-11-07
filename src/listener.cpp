@@ -13,9 +13,17 @@
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
-  ROS_INFO("Affirmative,MatBot: [%s]", msg->data.c_str());
+  // Log the string that was recieved
+  ROS_DEBUG("I heard: [%s]", msg->data.c_str());
 }
 
+/**
+ * @brief The main function of the listner to create a node and recieve information over a
+ *        topic from talker
+ * @param argc Argument count
+ * @param argv Argument vector
+ * @return int
+ */
 int main(int argc, char **argv) {
   /**
    * The ros::init() function needs to see argc and argv so that it can perform
@@ -52,11 +60,13 @@ int main(int argc, char **argv) {
    * away the oldest ones.
    */
   ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
    * callbacks will be called from within this thread (the main one).  ros::spin()
    * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
    */
   ros::spin();
+
   return 0;
 }

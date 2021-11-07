@@ -1,0 +1,7 @@
+<launch>
+  <arg name = "loop" default = "10" />
+  <node name="talker" pkg="beginner_tutorials" type="talker"
+  output = "screen" args = "$(arg loop)"/>
+  <node name="listener" pkg="beginner_tutorials" output = "screen" type="listener"/>
+
+</launch>

@@ -1,7 +1,9 @@
 <launch>
-  <arg name = "loop" default = "10" />
-  <node name="talker" pkg="beginner_tutorials" type="talker"
-  output = "screen" args = "$(arg loop)"/>
-  <node name="listener" pkg="beginner_tutorials" output = "screen" type="listener"/>
-
+  <arg name="set_frequency" default="20"/>
+  <arg name="rosbag_record" default="false"/>
+  <node pkg = "beginner_tutorials" type = "talker" name = "pub_node" output = "screen" args="$(arg set_frequency)" />
+  <node pkg = "beginner_tutorials" type = "listener" name = "sub_node" output = "screen" />
+  
+  <node
+  pkg="rosbag" name="record" type="record" args="--a -O $(find beginner_tutorials)/results/bag_file.bag" if="$(arg rosbag_record)"/>
 </launch>

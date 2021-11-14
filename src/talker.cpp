@@ -36,6 +36,7 @@
 // #include <iostream>
 // Include service
 #include "beginner_tutorials/ServiceFile.h"
+#include <tf/transform_broadcaster.h>
 
 extern std::string change = "Changed String: ";
 
@@ -121,6 +122,9 @@ int main(int argc, char **argv) {
  * call to Rate::sleep(), and sleep for the correct amount of time.
  */
   ros::Rate loop_rate(loop);
+  static tf::TransformBroadcaster pub;
+  tf::Transform transform;
+  tf::Quaternion quat;
 
   /**
    * A count of how many messages we have sent. This is used to create
@@ -128,6 +132,10 @@ int main(int argc, char **argv) {
    */
   int count = 0;
   while (ros::ok()) {
+    transform.setOrigin(tf::Vector3(1, 4, 3));
+    quat.setRPY(0, 0, 90);
+    pub.sendTransform(
+        tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */

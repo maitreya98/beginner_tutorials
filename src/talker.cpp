@@ -134,6 +134,7 @@ int main(int argc, char **argv) {
   while (ros::ok()) {
     transform.setOrigin(tf::Vector3(1, 4, 3));
     quat.setRPY(0, 0, 90);
+    transform.setRotation(quat);
     pub.sendTransform(
         tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
     /**

@@ -75,7 +75,40 @@ rosrun rqt_console rqt_console
 rosrun rqt_logger_level rqt_logger_level
 ```
 * Visualization Output
-![Visualization Output](results/Week_10.png)
+![Visualization Output](results/Week_11.png)
+
+## Inspecting TF Data
+```bash
+cd ~/<your_ws>
+    source devel/setup.bash
+    rosrun rqt_tf_tree rqt_tf_tree
+```
+```bash
+    cd ~/<your_ws>
+    source devel/setup.bash
+    rosrun tf tf_echo world talk 
+```
+## Inspecting ros bag file 
+ ```bash
+    cd ~/<your_ws>
+    source devel/setup.bash
+    rosbag info src/beginner_tutorials/results/my_bagfile.bag 
+```
+    Playing *my_bagfile.bag* ros bag file:
+```bash
+    cd ~/<your_ws>
+    source devel/setup.bash
+    rosbag play -l src/beginner_tutorials/results/my_bagfile.bag 
+```
+
+## Ruuning ROS Test
+```bash
+cd ~/<your_ws>
+catkin_make
+catkin_make run_tests_beginner_tutorials
+```
+* ROS Test
+![ROS Test](results/ros_test.png)
 
 For cppcheck
 ```bash

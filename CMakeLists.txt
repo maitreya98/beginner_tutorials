@@ -33,7 +33,7 @@ if(CATKIN_ENABLE_TESTING)
 
   add_rostest_gtest(
   srv_test
-  test/srv_test.launch
+  test/srv_test.test
   test/srv_test.cpp
   )
   target_link_libraries(

@@ -7,19 +7,18 @@ std::shared_ptr<ros::NodeHandle> nh;
 
 TEST (TESTSuite, serviceFileCheck)
 {
-  ros::ServiceClient client = nh->serviceClient<simple_rostest::AddTwoInts>(
-      "NewService");
-  bool exists(client.waitForExixtence(ros::Duration(1)));
+  ros::ServiceClient client = nh->serviceClient<beginner_tutorials::ServiceFile>("NewService");
+  bool exists(client.waitForExistence(ros::Duration(1)));
   EXPECT_TRUE(exists);
 }
 
 TEST (TESTuite, serviceTestOutput)
   {
-    ros::ServiceClient client = nh->serviceClient<simple_rostest::AddTwoInts>(
-      "NewService");
+    ros::ServiceClient client = nh->serviceClient<beginner_tutorials::ServiceFile>("NewService");
     beginner_tutorials::ServiceFile srv;
+    srv.request.input_msg = "hi";
     client.call(srv);
-    EXPECT_EQ("hi", srv.response.output_msg)
+    EXPECT_EQ("hi", srv.response.output_msg);
   }
 
 int main(int argc, char **argv) {

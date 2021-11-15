@@ -5,5 +5,7 @@
   <node pkg = "beginner_tutorials" type = "listener" name = "sub_node" output = "screen" />
   
   <node
-  pkg="rosbag" name="record" type="record" args="--a -O $(find beginner_tutorials)/results/bag_file.bag" if="$(arg rosbag_record)"/>
+  pkg="rosbag" name="record" type="record" 
+  args="--a -O $(find beginner_tutorials)/results/my_bag.bag"
+  if="$(arg rosbag_record)"/>
 </launch>

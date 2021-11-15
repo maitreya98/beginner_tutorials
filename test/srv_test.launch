@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="talker" pkg="beginner_tutorials" type="talker"/>
+  
+  <test pkg="beginner_tutorials" test-name="service_test_node" type="srv_test" />
+</launch>

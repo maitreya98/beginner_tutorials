@@ -31,8 +31,9 @@ add_dependencies(listener beginner_tutorials_generate_messages_cpp)
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
 
-  add_rostest_gtest(srv_test
-  test/srv_test.test
+  add_rostest_gtest(
+  srv_test
+  test/srv_test.launch
   test/srv_test.cpp
   )
   target_link_libraries(
@@ -41,6 +42,7 @@ if(CATKIN_ENABLE_TESTING)
   )
   add_dependencies(
     srv_test
+    talker
   ${PROJECT_NAME}_generate_messages_cpp
   ${catkin_EXPORTED_TARGETS}
   )
